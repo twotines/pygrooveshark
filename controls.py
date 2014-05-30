@@ -6,17 +6,13 @@ client = Client()
 client.init()
 
 
-#   execfile('notes.py')
-   
-
 def getFirst(iterable):
     for item in iterable:
         print(item)
         return item
 
 
-
-# search for a song 
+# play the first song that matches a query string
 def psng(songName):
     search = client.search(songName, type='Songs')
     song = getFirst(search)
@@ -29,9 +25,9 @@ def ssng(songName):
     song = getFirst(search)
 
 
-# find all playlists matching a term and play all of them  :)
+# find all playlists containing an item with a matching term and play all of them
 def ppls(plName):
-    """play all playlists that match a given name"""
+    # play all playlists that match a given name
     search = client.search(plName, type='Playlists')
     for pl in search:
         for song in pl.songs:
@@ -39,9 +35,9 @@ def ppls(plName):
             subprocess.call(['mplayer', song.stream.url])
 
 
-# find all playlists matching a term and list the tracks
+# find all playlists containing an item with a matching term and list all of the tracks
 def spls(plName):
-    """play all playlists that match a given name"""
+    # play all playlists that match a given name
     search = client.search(plName, type='Playlists')
     for pl in search:
         for song in pl.songs:
