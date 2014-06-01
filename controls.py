@@ -24,6 +24,11 @@ def ssng(songName):
     search = client.search(songName, type='Songs')
     song = getFirst(search)
 
+# search for a song 
+def ssngs(songName):
+    search = client.search(songName, type='Songs')
+    for song in search:
+            print(song)
 
 # find all playlists containing an item with a matching term and play all of them
 def ppls(plName):
