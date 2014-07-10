@@ -30,6 +30,58 @@ def ssngs(songName):
     for song in search:
             print(song)
 
+
+# find all playlists containing an item with a matching term and play all of them
+def psngs(songName):
+    # play all playlists that match a given name
+    search = client.search(songName, type='Songs')
+    for song in search:
+            print(song)
+            subprocess.call(['mplayer', song.stream.url])
+
+
+
+# play from queue
+def pq():
+    q = open('queue', 'r')
+    next = q.readline()
+    while next:
+        h = open('history', 'a')
+        h.write(next)
+        h.close()
+        rest = q.read()
+        q.close()
+        q = open('queue', 'w')
+        q.write(rest)
+        q.close()
+        q = open('queue', 'r')
+        psng(next)
+        next = q.readline()
+    q.close()
+
+
+def rq():
+    q = open('queue', 'r')
+    next = q.readline()
+    while next:
+        print(next)
+        next = q.readline()
+
+
+def hist():
+    h = open('history', 'r')
+    next = h.readline()
+    while next:
+        print(next)
+        next = h.readline()
+
+
+def enq(songName):
+    q = open('queue', 'a')
+    q.write(songName + "\n")
+    q.close()
+
+
 # find all playlists containing an item with a matching term and play all of them
 def ppls(plName):
     # play all playlists that match a given name
