@@ -6,6 +6,7 @@ client = Client()
 client.init()
 
 
+
 def getFirst(iterable):
     for item in iterable:
         print(item)
@@ -33,33 +34,43 @@ def ssngs(songName):
 
 # find all playlists containing an item with a matching term and play all of them
 def psngs(songName):
-    # play all playlists that match a given name
+    # play all the songs that match a given name
     search = client.search(songName, type='Songs')
     for song in search:
             print(song)
             subprocess.call(['mplayer', song.stream.url])
 
 
-
 # play from queue
+# this seems to be working but it's not very elegant 
 def pq():
     q = open('queue', 'r')
     next = q.readline()
     while next:
+        # add the current song to the history file
         h = open('history', 'a')
         h.write(next)
         h.close()
+
+        # get the tail of the queue
         rest = q.read()
         q.close()
+
+        # overwrte the queue file with the tail of the queue
         q = open('queue', 'w')
         q.write(rest)
         q.close()
-        q = open('queue', 'r')
+
+        # play the next song in the queue
         psng(next)
+        
+        # open the queue file and get the next song to be played 
+        q = open('queue', 'r')
         next = q.readline()
     q.close()
 
 
+# read the current list of songs in the queue
 def rq():
     q = open('queue', 'r')
     next = q.readline()
@@ -68,6 +79,7 @@ def rq():
         next = q.readline()
 
 
+# show the history of songs previously played from the queue
 def hist():
     h = open('history', 'r')
     next = h.readline()
@@ -76,6 +88,7 @@ def hist():
         next = h.readline()
 
 
+# enqueue a search string
 def enq(songName):
     q = open('queue', 'a')
     q.write(songName + "\n")
@@ -94,10 +107,8 @@ def ppls(plName):
 
 # find all playlists containing an item with a matching term and list all of the tracks
 def spls(plName):
-    # play all playlists that match a given name
+    # find all playlists that match a given name
     search = client.search(plName, type='Playlists')
     for pl in search:
         for song in pl.songs:
             print(song)
-
-
